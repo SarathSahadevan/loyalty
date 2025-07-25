@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Profile</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h2>Customer Profile</h2>
+
+    <p><strong>Name:</strong> {{ customer.name }}</p>
+    <p><strong>Phone:</strong> {{ customer.phone }}</p>
+    <p><strong>Points:</strong> {{ customer.points }}</p>
+
+    <hr>
+
+    <h3>Add Points</h3>
+    <form method="post" action="/customer/{{ customer.id }}/add">
+        <input type="number" name="points" placeholder="Enter points" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <h3>Redeem Points</h3>
+    <form method="post" action="/customer/{{ customer.id }}/redeem">
+        <input type="number" name="points" placeholder="Enter points" required>
+        <button type="submit">Redeem</button>
+    </form>
+
+    <hr>
+
+    <form method="get" action="/dashboard">
+        <button type="submit">Back to Dashboard</button>
+    </form>
+</body>
+</html>

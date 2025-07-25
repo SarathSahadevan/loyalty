@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Points</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="customer-points-display">
+    <div class="shop-header">
+      <h1>{{ shop.shop_name }}</h1>
+    </div>
+    <div class="customer-welcome">
+      <h2>{{ customer.name }}</h2>
+      <p>Phone: {{ customer.phone }}</p>
+      <p>Member since: {{ customer.created_at.split()[0] if customer.created_at else '' }}</p>
+    </div>
+    <div class="points-showcase">
+      <div class="points-circle">
+        <span class="points-number">{{ customer.points }}</span>
+        <span class="points-text">Points</span>
+      </div>
+    </div>
+    {% if customer.points >= 100 %}
+      <div class="rewards-available">
+        <b>You have enough points to redeem rewards. Visit our shop to claim them!</b>
+      </div>
+    {% else %}
+      <div class="points-needed">
+        You need {{ 100 - customer.points }} more points to unlock rewards!
+      </div>
+    {% endif %}
+    <div class="recent-activity">
+      <h3>Recent Activity</h3>
+      <ul class="transactions-list">
+        {% for t in transactions %}
+        <li class="transaction-item {{ t.transaction_type }}">
+          <div class="transaction-details">
+            <span class="transaction-date">{{ t.created_at.split()[0] if t.created_at else '' }}</span>
+            <span class="transaction-desc">{{ t.description or t.transaction_type.title() }}</span>
+          </div>
+          <span class="points-{{ 'add' if t.transaction_type == 'add' else 'redeem' }}">
+            {% if t.transaction_type == "add" %}+{{ t.points_change }}{% else %}{{ t.points_change }}{% endif %}
+          </span>
+        </li>
+        {% else %}
+        <li>No recent transactions</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="auto-refresh-notice">This page refreshes automatically every 30 seconds.</div>
+  </div>
+</body>
+</html>

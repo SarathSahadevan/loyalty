@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Customer Portal</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="customer-login-box">
+    <div class="shop-header">
+      <h1>{{ shop.shop_name }}</h1>
+      <p>Check Your Loyalty Points</p>
+    </div>
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+    <form method="post" action="/customer/{{ shop.id }}/check-points">
+      <div class="form-group">
+        <label>Enter your phone number</label>
+        <input name="phone" maxlength="30" required autofocus />
+      </div>
+      <button class="btn btn-primary" type="submit">Check Points</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Customer Profile</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+  <div class="customer-card">
+    <h2>{{ customer.name }}</h2>
+    <p><b>Phone:</b> {{ customer.phone }}</p>
+    <p><b>Points:</b> {{ customer.points }}</p>
+    <p><b>Member Since:</b> {{ customer.created_at.split()[0] if customer.created_at else '' }}</p>
+  </div>
+  <div class="actions-section">
+    <div class="action-card">
+      <h3>Add Points</h3>
+      <form method="post" action="/add-points/{{ customer.id }}">
+        <div class="form-group"><input name="points" type="number" min="1" required /></div>
+        <div class="form-group"><input name="description" placeholder="Description (optional)" /></div>
+        <button class="btn btn-success" type="submit">Add</button>
+      </form>
+    </div>
+    <div class="action-card">
+      <h3>Redeem Points</h3>
+      <form method="post" action="/redeem-points/{{ customer.id }}">
+        <div class="form-group"><input name="points" type="number" min="1" required /></div>
+        <div class="form-group"><input name="description" placeholder="Description (optional)" /></div>
+        <button class="btn btn-warning" type="submit">Redeem</button>
+      </form>
+    </div>
+  </div>
+  <div class="transactions-section">
+    <h3>Recent Transactions</h3>
+    <table class="transactions-table">
+      <tr><th>Date</th><th>Type</th><th>Points</th><th>Description</th></tr>
+      {% for t in transactions %}
+      <tr>
+        <td>{{ t.created_at.split()[0] if t.created_at else '' }}</td>
+        <td>{{ t.transaction_type.title() }}</td>
+        <td>{% if t.transaction_type == "add" %}+{{ t.points_change }}{% else %}{{ t.points_change }}{% endif %}</td>
+        <td>{{ t.description or '-' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4">No transactions</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</body>
+</html>
