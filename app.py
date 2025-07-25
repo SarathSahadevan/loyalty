@@ -80,7 +80,7 @@ def get_current_shop(request: Request):
     return dict(shop) if shop else None
 
 def generate_qr_code(shop_id: int) -> str:
-    customer_url = f"https://loyalty-i3qt.onrender.com//customer/{shop_id}"
+    customer_url = f"https://loyalty-i3qt.onrender.com/customer/{shop_id}"
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
     qr.add_data(customer_url)
     qr.make(fit=True)
