@@ -3,3 +3,5 @@ uvicorn
 jinja2
 qrcode
 python-multipart
+itsdangerous
+starlette
